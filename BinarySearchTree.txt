@@ -1,0 +1,178 @@
+package TestDemo;
+
+import java.util.ArrayList;
+
+class GenericAlg<T extends Comparable<T>>{
+    public T maxValue(T[] array){
+        T max = array[0];
+        for (int i=1;i<array.length;i++){
+            if (array[i].compareTo(max)>0){
+                max = array[i];
+            }
+        }
+        return max;
+    }
+}
+
+class GenericAlg2{
+    public static <T extends Comparable<T>> T maxValue(T[] array){
+        T max = array[0];
+        for (int i =1;i<array.length;i++){
+            if (array[i].compareTo(max)>0){
+                max = array[i];
+            }
+        }
+        return max;
+    }
+}
+
+class MyPrint<T>{
+    public void printf1(ArrayList<T>list){
+        for (T val:list){
+            System.out.println(val);
+        }
+    }
+    public void printf(ArrayList<?>list){
+        for (Object val:list){
+            System.out.println(val);
+        }
+    }
+}
+
+
+public class TestDemo {
+    public static void main(String[] args) {
+        MyPrint<Integer>myPrint = new MyPrint<Integer>();
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        arrayList.add(10);
+        arrayList.add(20);
+        arrayList.add(30);
+        myPrint.printf(arrayList);
+    }
+
+    public static void main2(String[] args) {
+        Integer[] array = {1,5,2,8,10,7};
+        System.out.println(GenericAlg2.<Integer>maxValue(array));
+        System.out.println(GenericAlg2.maxValue(array));
+    }
+
+    public static void main1(String[] args) {
+        Integer[] array = {1,5,2,8,10,7};
+        GenericAlg<Integer>gla = new GenericAlg<Integer>();
+        System.out.println(gla.maxValue(array));
+    }
+}
+
+package TestDemo;
+
+
+class MyArrayList<T>{
+    public T[] elem;
+    public int usedSize;
+
+    public MyArrayList(){
+        this.elem = (T[])new Object[10];
+    }
+
+    public void push(T val){
+        this.elem[this.usedSize] = val;
+        this.usedSize++;
+    }
+     public T get(){
+        return this.elem[0];
+     }
+}
+public class TestDemo2 {
+    public static void main(String[] args) {
+        MyArrayList<Integer>myArrayList=new MyArrayList<Integer>();
+        myArrayList.push(1);
+        myArrayList.push(21);
+        int val = myArrayList.get();
+        System.out.println(val);
+        MyArrayList<String>myArrayList2 = new MyArrayList<String>();
+        System.out.println(myArrayList);
+        System.out.println(myArrayList2);
+
+    }
+}
+
+class BinarySearchTree{
+    static class Node{
+        public int data;
+        public Node left;
+        public Node right;
+        public Node(int data){
+            this.data = data;
+        }
+    }
+    static Node root = null;
+    public static void put(int key){
+        Node node = new Node(key);
+        if (root == null){
+            root = node;
+            return;
+        }
+        Node parent = null;
+        Node cur = root;
+        while (cur!=null){
+            if (cur.data<key){
+                parent = cur;
+                cur = cur.right;
+            }else if (cur.data>key){
+                parent = cur;
+                cur = cur.left;
+            }else {
+                cur.data = key;
+                return;
+            }
+        }
+        if (parent.data<key){
+            parent.right = node;
+        }else {
+            parent.left = node;
+        }
+    }
+    public static Node findVal(int val){
+        if (root == null) return null;
+        Node cur = root;
+        while (cur!=null){
+            if (cur.data == val){
+                return cur;
+            }else if (cur.data<val){
+                cur = cur.right;
+            }else {
+                cur = cur.left;
+            }
+        }
+        return null;
+    }
+
+    public static void inorder(Node root){
+        if (root == null) return;
+        inorder(root.left);
+        System.out.println(root.data+" ");
+        inorder(root.right);
+    }
+    public static void preorder(Node root){
+        if (root == null) return;
+        System.out.println(root.data+" ");
+        preorder(root.left);
+        preorder(root.right);
+    }
+}
+
+
+
+public class TestDemo {
+    public static void main(String[] args) {
+        BinarySearchTree binarySearchTree = new BinarySearchTree();
+        int[] array={16,25,19,67,43,9,10};
+        for (int i = 0;i<array.length;i++){
+            binarySearchTree.put(16);
+            binarySearchTree.inorder(binarySearchTree.root);
+            System.out.println("========");
+            binarySearchTree.preorder(binarySearchTree.root);
+            System.out.println("========");
+        }
+    }
+}
